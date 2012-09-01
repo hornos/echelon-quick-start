@@ -1,0 +1,52 @@
+---
+:id: cluster # cluster data bag id mandatory for cluster[:hosts]
+
+:knife: # generate .chef/knife.rb
+  :node_name: 'macbook' # orgname
+  :client_name: 'chef-validator'
+  :server_url: 'http://10.10.10.10:4000'
+  :log_level: :debug
+
+:cookbooks: # to download
+  - apt
+  - git
+  - build-essential
+  - users
+  - sudo
+  - vim
+  - perl
+
+:users:
+  :admin:
+    :groups:
+      - sysadmin
+      - dba
+      - devops
+    :uid: 2001
+    :shell: "/bin/bash"
+
+:defaults:
+  :vm:
+    :box: precise64-ruby-1.9.3-p194
+    :box_url: https://dl.dropbox.com/u/14292474/vagrantboxes/precise64-ruby-1.9.3-p194.box
+  :modifyvm:
+    :rtcuseutc: "on"
+    :memory: 256
+
+:nodes:
+  :echelon:
+    :cpus: 1
+    :hostonly: 10.10.10.11
+    :alias: loghost admin
+    :chef_client: dev
+    :roles: 
+      - role[cluster]
+      - role[base]
+      - role[echelon]
+    :forward:
+    - - 80
+      - 8000
+    - - 9001
+      - 9001
+    - - 9292
+      - 9292
