@@ -15,6 +15,7 @@
   - sudo
   - vim
   - perl
+  - cloud
 
 :users:
   :admin:
